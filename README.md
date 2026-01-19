@@ -19,7 +19,8 @@ For reference alignment, minimap2 was chosen due to its widespread use and optim
 # Methods
 ## Genome assembly and polishing
 
-Oxford Nanopore R10 sequencing reads (FASTQ format) will be assembled _de novo_ using Flye (v2.9.6), a long-read assembler designed for error-prone Nanopore data. Assembly was performed in high-accuracy Nanopore mode `--nano-hq`, with an estimated genome size of 4.8 Mb `--genome-size 4.8m`, consistent with _Salmonella enterica_ (NBCI). Default parameters will used unless otherwise specified. Flye’s internal polishing steps will applied to improve consensus accuracy prior to downstream analysis.
+Oxford Nanopore R10 sequencing reads (FASTQ format) will be quality-checked using NanoPlot (v1.46.2) to assess read length distributions, quality scores, and sequencing yield, ensuring sufficient coverage and read length for reliable _de novo_ assembly.
+Following the QC steps, reads will be assembled using Flye (v2.9.6), a long-read assembler designed for error-prone Nanopore data. Assembly was performed in high-accuracy Nanopore mode `--nano-hq`, with an estimated genome size of 4.8 Mb `--genome-size 4.8m`, consistent with _Salmonella enterica_ (NBCI). Default parameters will used unless otherwise specified. Flye’s internal polishing steps will applied to improve consensus accuracy prior to downstream analysis.
 
 `flye --nano-hq reads.fastq --genome-size 4.8m --out-dir flye_output --threads 8`
 
@@ -54,4 +55,10 @@ To visually inspect alignment quality and genomic differences between the assemb
 [9] Baker, M. (2012). De novo genome assembly: what every biologist should know. Nature Methods, 9(4), 333–337. https://doi.org/10.1038/nmeth.1935
 
 [10] Li, H. (2021). New strategies to improve minimap2 alignment accuracy. Bioinformatics, 37(23), 4572–4574. https://doi.org/10.1093/bioinformatics/btab705
+
+[11] Mikolmogorov. (n.d.). Flye/Docs/USAGE.md at flye · Mikolmogorov/Flye. GitHub. https://github.com/mikolmogorov/Flye/blob/flye/docs/USAGE.md 
+
+[12] Li, H. (n.d.). LH3/Minimap2: A versatile pairwise aligner for genomic and spliced nucleotide sequences. GitHub. https://github.com/lh3/minimap2?tab=readme-ov-file#general 
+
+[13] U.S. National Library of Medicine. (n.d.). Salmonella enterica genome assembly ASM250787v2 - NCBI - NLM. National Center for Biotechnology Information. https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_002507875.2/ 
 
