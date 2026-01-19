@@ -14,13 +14,13 @@ In this analysis, raw ONT R10 sequencing reads from Salmonella enterica will be 
 
 Several long-read assemblers were evaluated for assembling the Salmonella enterica genome from Oxford Nanopore data, including Flye, Canu, and NECAT. Flye was selected as the primary assembler due to its robustness and consistent performance for long-read de novo bacterial genome assembly [7,8]. Flye constructs an assembly graph by connecting error-prone disjoint genomic segments into a unified structure, enabling accurate reconstruction of complex genomic regions, and has been shown to perform particularly well for plasmid assembly [7]. While Canu applies extensive read correction and trimming to reduce base-calling errors and can generate reliable assemblies, it has substantially longer runtimes and higher computational demands, making it less efficient for this analysis [7,8]. NECAT employs a two-stage correction and assembly strategy designed to address Nanopore-specific errors and can generate high-quality assemblies more rapidly than Canu, however it often requires additional polishing steps to achieve comparable accuracy [7]. Based on robustness, accuracy, and computational efficiency, Flye was chosen as the most suitable assembler for this workflow.
 
-For reference alignment, minimap2 was chosen due to its widespread use and optimized performance for mapping long-read assemblies to closely related reference genomes [10]. Variant detection and file processing will be conducted using SAMtools and BCFtools for manipulating alignment files and identifying genomic variation. Finally, the Integrative Genomics Viewer (IGV) will be used for visualization, allowing manual inspection of alignments and variants to assess assembly quality and validate detected sequence differences. Together, these tools form a workflow that balances computational efficiency, accuracy, and interpretability for long-read bacterial genome assembly and comparison.
+For reference alignment, minimap2 was chosen due to its widespread use and optimized performance for mapping long-read assemblies to closely related reference genomes [9]. Variant detection and file processing will be conducted using SAMtools and BCFtools for manipulating alignment files and identifying genomic variation. Finally, the Integrative Genomics Viewer (IGV) will be used for visualization, allowing manual inspection of alignments and variants to assess assembly quality and validate detected sequence differences. Together, these tools form a workflow that balances computational efficiency, accuracy, and interpretability for long-read bacterial genome assembly and comparison.
 
 # Methods
 ## Genome assembly and polishing
 
 Oxford Nanopore R10 sequencing reads (FASTQ format) will be quality-checked using NanoPlot (v1.46.2) to assess read length distributions, quality scores, and sequencing yield, ensuring sufficient coverage and read length for reliable _de novo_ assembly.
-Following the QC steps, reads will be assembled using Flye (v2.9.6), a long-read assembler designed for error-prone Nanopore data. Assembly was performed in high-accuracy Nanopore mode `--nano-hq`, with an estimated genome size of 4.8 Mb `--genome-size 4.8m`, consistent with _Salmonella enterica_ [11]. Default parameters will used unless otherwise specified. Flye’s internal polishing steps will applied to improve consensus accuracy prior to downstream analysis.
+Following the QC steps, reads will be assembled using Flye (v2.9.6), a long-read assembler designed for error-prone Nanopore data. Assembly was performed in high-accuracy Nanopore mode `--nano-hq`, with an estimated genome size of 4.8 Mb `--genome-size 4.8m`, consistent with _Salmonella enterica_ [10]. Default parameters will used unless otherwise specified. Flye’s internal polishing steps will applied to improve consensus accuracy prior to downstream analysis.
 
 `flye --nano-hq reads.fastq --genome-size 4.8m --out-dir flye_output --threads 8`
 
@@ -52,10 +52,10 @@ To visually inspect alignment quality and genomic differences between the assemb
 
 [8] Wick, R. R., & Holt, K. E. (2019). Benchmarking of long-read assemblers for prokaryote whole genome sequencing [version 1; peer review: 4 approved]. F1000 Research, 8, 2138. https://doi.org/10.12688/f1000research.21782.1
 
-[10] Li, H. (2021). New strategies to improve minimap2 alignment accuracy. Bioinformatics, 37(23), 4572–4574. https://doi.org/10.1093/bioinformatics/btab705
+[9] Li, H. (2021). New strategies to improve minimap2 alignment accuracy. Bioinformatics, 37(23), 4572–4574. https://doi.org/10.1093/bioinformatics/btab705
 
-[11] U.S. National Library of Medicine. (n.d.). Salmonella enterica genome assembly ASM250787v2 - NCBI - NLM. National Center for Biotechnology Information. https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_002507875.2/ 
+[10] U.S. National Library of Medicine. (n.d.). Salmonella enterica genome assembly ASM250787v2 - NCBI - NLM. National Center for Biotechnology Information. https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_002507875.2/ 
 
-[12] Mikolmogorov. (n.d.). Flye/Docs/USAGE.md at flye · Mikolmogorov/Flye. GitHub. https://github.com/mikolmogorov/Flye/blob/flye/docs/USAGE.md 
+[11] Mikolmogorov. (n.d.). Flye/Docs/USAGE.md at flye · Mikolmogorov/Flye. GitHub. https://github.com/mikolmogorov/Flye/blob/flye/docs/USAGE.md 
 
-[13] Li, H. (n.d.). LH3/Minimap2: A versatile pairwise aligner for genomic and spliced nucleotide sequences. GitHub. https://github.com/lh3/minimap2?tab=readme-ov-file#general 
+[12] Li, H. (n.d.). LH3/Minimap2: A versatile pairwise aligner for genomic and spliced nucleotide sequences. GitHub. https://github.com/lh3/minimap2?tab=readme-ov-file#general 
