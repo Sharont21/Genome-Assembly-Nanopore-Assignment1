@@ -20,17 +20,17 @@ For reference alignment, minimap2 was chosen due to its widespread use and optim
 ## Genome assembly and polishing
 
 Oxford Nanopore R10 sequencing reads (FASTQ format) will be quality-checked using NanoPlot (v1.46.2) to assess read length distributions, quality scores, and sequencing yield, ensuring sufficient coverage and read length for reliable _de novo_ assembly.
-Following the QC steps, reads will be assembled using Flye (v2.9.6), a long-read assembler designed for error-prone Nanopore data. Assembly was performed in high-accuracy Nanopore mode `--nano-hq`, with an estimated genome size of 4.8 Mb `--genome-size 4.8m`, consistent with _Salmonella enterica_ [10]. Default parameters will used unless otherwise specified. Flye’s internal polishing steps will applied to improve consensus accuracy prior to downstream analysis.
+Following the QC steps, reads will be assembled using Flye (v2.9.6), a long-read assembler designed for error-prone Nanopore data. Assembly was performed in high-accuracy Nanopore mode `--nano-hq`, with an estimated genome size of 4.8 Mb `--genome-size 4.8m`, consistent with _Salmonella enterica_ [10]. Default parameters will be used unless otherwise specified. Flye’s internal polishing steps will be applied to improve consensus accuracy prior to downstream analysis.
 
 `flye --nano-hq reads.fastq --genome-size 4.8m --out-dir flye_output --threads 8`
 
 ## Reference genome alignment
-To evaluate the assembled genome and identify sequence differences, the draft assembly will aligned to a _Salmonella enterica_ reference genome downloaded from the NCBI RefSeq database. Alignment will be performed using minimap2 (v2.26), using the `-ax asm5` option to align assembled contigs to the reference, output to a SAM format, assuming ~5% divergence.
+To evaluate the assembled genome and identify sequence differences, the draft assembly will be aligned to a _Salmonella enterica_ reference genome downloaded from the NCBI RefSeq database. Alignment will be performed using minimap2 (v2.26), using the `-ax asm5` option to align assembled contigs to the reference, output to a SAM format, assuming ~5% divergence.
 
 `minimap2 -ax asm5 reference.fasta flye_output/assembly.fasta > alignment.sam`
 
 ## Alignment processing and variant calling
-Alignment files (SAM files) will be converted to BAM format, sorted, and indexed using SAMtools (v1.19.2) to prepare them for variant analysis. Variants relative to the reference genome, including single nucleotide polymorphisms (SNPs) and small insertions and deletions (indels), will identified using BCFtools (v1.19).
+Alignment files (SAM files) will be converted to BAM format, sorted, and indexed using SAMtools (v1.19.2) to prepare them for variant analysis. Variants relative to the reference genome, including single nucleotide polymorphisms (SNPs) and small insertions and deletions (indels), will be identified using BCFtools (v1.19).
 
 ## Visualization
 To visually inspect alignment quality and genomic differences between the assembled genome and the reference, alignments and variant calls will be examined using Integrative Genomics Viewer (IGV, v2.19.7). 
