@@ -46,6 +46,7 @@ To visually inspect alignment quality and genomic differences between the assemb
 |Number of reads|196,031.0|188,542.0|
 |Read length N50|4,683.0|4,688.0|
 |Total bases|809,296,219.0|785,406,207.0|
+
 Table 1: summary statistics before and after filtering
 
 <p align="center">
