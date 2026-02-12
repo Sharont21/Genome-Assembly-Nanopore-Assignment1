@@ -1,0 +1,17 @@
+#Raw sequencing data
+*.fastq
+*.fastq.gz
+
+#Alignment files
+*.bam
+*.bai
+
+#Assemblies
+*.fasta
+*.fa
+
+#Containers
+*.sif
+
+#Scratch outputs
+scratch/
