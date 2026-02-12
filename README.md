@@ -85,6 +85,11 @@ Table 1: summary statistics before and after filtering
 
 Figure 1: Read length vs average read quality kde plot before and filtering
 
+<img width="828" height="88" alt="image" src="https://github.com/user-attachments/assets/8d13c962-839c-4253-b90d-78e44bcf83d8" />
+
+Figure 2: Summary of flye assembly
+
+
 
 
 
