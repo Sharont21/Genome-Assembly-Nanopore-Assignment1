@@ -35,6 +35,22 @@ Alignment files (SAM files) will be converted to BAM format, sorted, and indexed
 ## Visualization
 To visually inspect alignment quality and genomic differences between the assembled genome and the reference, alignments and variant calls will be examined using Integrative Genomics Viewer (IGV, v2.19.7). 
 
+# Results
+
+|Metric|Raw Reads|Filtered Reads|
+|------|---------|--------------|
+|Mean read length|4,128.4|
+|Mean read quality|18.9|
+|Median read length|3,957.0|
+|Median read quality|23.7|
+|Number of reads|196,031.0|
+|Read length N50|4,683.0|
+|Total bases|809,296,219.0|
+Table 1: summary statistics before and after filtering
+
+<img width="600" height="600" alt="newplot" src="https://github.com/user-attachments/assets/5608a824-9667-40d8-81bf-4ae398457017" />
+Figure 1: Read length vs average read quality kde plot
+
 # References
 [1]  Baker, M. (2012). De novo genome assembly: what every biologist should know. Nature Methods, 9(4), 333–337. https://doi.org/10.1038/nmeth.1935
 
