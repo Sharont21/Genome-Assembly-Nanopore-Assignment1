@@ -1,0 +1,13 @@
+Step 1: Data download and QC (before filtering)
+
+- Data source: NCBI SRA
+- Accession: SRR32410565
+- Platform: Oxford Nanopore (R10.4)
+- System: Nibi (Digital Research Alliance of Canada)
+
+Commands executed:
+- fasterq-dump SRR32410565
+- NanoPlot --fastq SRR32410565.fastq.gz
+
+Outputs:
+- qc/nanoplot_before.html
