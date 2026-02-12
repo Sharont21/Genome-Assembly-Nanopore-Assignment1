@@ -48,11 +48,14 @@ To visually inspect alignment quality and genomic differences between the assemb
 |Total bases|809,296,219.0|785,406,207.0|
 Table 1: summary statistics before and after filtering
 
-<img width="600" height="600" alt="newplot" src="https://github.com/user-attachments/assets/5608a824-9667-40d8-81bf-4ae398457017" />
-Figure 1: Read length vs average read quality kde plot before filtering
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5608a824-9667-40d8-81bf-4ae398457017" width="45%" />
+  <img src="https://github.com/user-attachments/assets/b32452a6-4fd1-4ac9-810b-d1aaad8d8eaa" width="45%" />
+</p>
 
-<img width="600" height="600" alt="newplot (1)" src="https://github.com/user-attachments/assets/b32452a6-4fd1-4ac9-810b-d1aaad8d8eaa" />
-Figure 2: Read length vs average read quality kde plot after filtering
+Figure 1: Read length vs average read quality kde plot before and filtering
+
+
 
 
 # References
