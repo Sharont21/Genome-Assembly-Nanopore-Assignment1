@@ -25,19 +25,28 @@ All analyses were performed on the Digital Research Alliance of Canada’s Nibi 
 
 Oxford Nanopore Technologies (ONT) R10.4 sequencing reads for Salmonella enterica were obtained from the NCBI Sequence Read Archive (SRA) under accession SRR32410565. Raw sequencing data were downloaded using the SRA Toolkit and compressed in FASTQ format for downstream analysis.
 
-## Read Quality Assessment
+## Read Quality Assessment and Filtering
+### Pre-filtering Quality Assessment
 
-Initial read quality was assessed prior to filtering using NanoPlot v1.46.2, executed within an Apptainer container. NanoPlot was used to evaluate read length distributions, quality score distributions, and sequencing yield. Quality control reports were generated as interactive HTML files to facilitate visual inspection of read characteristics.
+Initial read quality was assessed prior to filtering using NanoPlot v1.46.2, executed within an Apptainer container. NanoPlot was used to evaluate read length distributions, quality score distributions, and sequencing yield. Quality control results were generated as interactive HTML reports to enable visual inspection of raw read characteristics.
 
-## Read Filtering
+### Read Filtering
 
-Sequencing reads were filtered based on length and quality to improve downstream assembly accuracy. Reads shorter than 1,000 base pairs or with a mean Phred quality score below 10 were removed using SeqKit v2.5.1, accessed via the Nibi module system. Filtering was applied directly to the compressed FASTQ file, and the resulting filtered reads were written to a new FASTQ file for subsequent analysis.
+Reads were filtered to improve assembly accuracy by removing low-quality and short reads. Filtering was performed using SeqKit v2.5.1, accessed via the Nibi module system. Reads shorter than 1,000 base pairs or with a mean Phred quality score below 10 were excluded. The resulting filtered reads were written to a new FASTQ file for downstream analysis.
 
-## Post-filtering Quality Assessment
+### Post-filtering Quality Assessment
 
-Following filtering, read quality was reassessed using NanoPlot v1.46.2 with the same parameters as the initial quality control step. This allowed direct comparison of read length, quality distributions, and overall yield before and after filtering. Post-filtering quality control reports were again generated as interactive HTML files.
+Following filtering, read quality was reassessed using NanoPlot v1.46.2 with the same parameters as the pre-filtering assessment. Post-filtering quality control reports were generated to allow direct comparison of read length, quality distributions, and sequencing yield before and after filtering.
 
-## Genome assembly and polishing
+## Genome Assembly
+
+Filtered ONT reads were assembled de novo using Flye v2.9.6, a long-read assembler optimized for error-prone Nanopore sequencing data. Assembly was performed in high-accuracy Nanopore mode using the --nano-hq option, with an estimated genome size of 4.8 Mb, consistent with the expected genome size of Salmonella enterica. Flye was executed using an Apptainer container, and internal polishing steps implemented by Flye were applied automatically to generate a consensus assembly. Assembly outputs included the final assembled contigs and summary assembly statistics.
+
+## Assembly Output Inspection
+
+The resulting assembly consisted of multiple contigs, consistent with a bacterial chromosome and potential plasmid sequences. Assembly statistics, including contig number and length metrics, were obtained from the Flye assembly summary files for downstream quality assessment and comparison to a reference genome.
+
+# Genome assembly and polishing
 
 Oxford Nanopore R10 sequencing reads (FASTQ format) will be quality-checked using NanoPlot (v1.46.2) to assess read length distributions, quality scores, and sequencing yield, ensuring sufficient coverage and read length for reliable _de novo_ assembly.
 Following the QC steps, reads will be assembled using Flye (v2.9.6), a long-read assembler designed for error-prone Nanopore data. Assembly was performed in high-accuracy Nanopore mode `--nano-hq`, with an estimated genome size of 4.8 Mb `--genome-size 4.8m`, consistent with _Salmonella enterica_ [10]. Default parameters will be used unless otherwise specified. Flye’s internal polishing steps will be applied to improve consensus accuracy prior to downstream analysis.
