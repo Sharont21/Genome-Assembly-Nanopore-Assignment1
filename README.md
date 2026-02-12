@@ -17,23 +17,23 @@ Several long-read assemblers were evaluated for assembling the Salmonella enteri
 For reference alignment, minimap2 was chosen due to its widespread use and optimized performance for mapping long-read assemblies to closely related reference genomes [9]. Variant detection and file processing will be conducted using SAMtools and BCFtools for manipulating alignment files and identifying genomic variation. Finally, the Integrative Genomics Viewer (IGV) will be used for visualization, allowing manual inspection of alignments and variants to assess assembly quality and validate detected sequence differences. Together, these tools form a workflow that balances computational efficiency, accuracy, and interpretability for long-read bacterial genome assembly and comparison.
 
 # Methods
-##Computational Resources
+## Computational Resources
 
 All analyses were performed on the Digital Research Alliance of Canada’s Nibi high-performance computing cluster. Data processing and quality control steps were executed in an interactive shell environment using the StdEnv/2023 software stack. Containerized software was executed using Apptainer, while select sequence-processing tools were accessed via environment modules provided by the cluster. No raw sequencing data were stored in the version-controlled repository; only scripts and processed result files were archived.
 
-##Sequencing Data Acquisition
+## Sequencing Data Acquisition
 
 Oxford Nanopore Technologies (ONT) R10.4 sequencing reads for Salmonella enterica were obtained from the NCBI Sequence Read Archive (SRA) under accession SRR32410565. Raw sequencing data were downloaded using the SRA Toolkit and compressed in FASTQ format for downstream analysis.
 
-##Read Quality Assessment
+## Read Quality Assessment
 
 Initial read quality was assessed prior to filtering using NanoPlot v1.46.2, executed within an Apptainer container. NanoPlot was used to evaluate read length distributions, quality score distributions, and sequencing yield. Quality control reports were generated as interactive HTML files to facilitate visual inspection of read characteristics.
 
-##Read Filtering
+## Read Filtering
 
 Sequencing reads were filtered based on length and quality to improve downstream assembly accuracy. Reads shorter than 1,000 base pairs or with a mean Phred quality score below 10 were removed using SeqKit v2.5.1, accessed via the Nibi module system. Filtering was applied directly to the compressed FASTQ file, and the resulting filtered reads were written to a new FASTQ file for subsequent analysis.
 
-##Post-filtering Quality Assessment
+## Post-filtering Quality Assessment
 
 Following filtering, read quality was reassessed using NanoPlot v1.46.2 with the same parameters as the initial quality control step. This allowed direct comparison of read length, quality distributions, and overall yield before and after filtering. Post-filtering quality control reports were again generated as interactive HTML files.
 
