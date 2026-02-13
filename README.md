@@ -55,6 +55,18 @@ The Flye assembly was further polished using Medaka, which performs neural-netwo
 
 To assess the impact of polishing on assembly quality, the Medaka-polished assembly was re-evaluated using QUAST v5.3.0 by comparison to the Salmonella enterica reference genome (ASM694v2). Assembly metrics including total length, contig count, N50, GC content, genome fraction, and misassemblies were compared to the pre-polishing QUAST results to evaluate changes resulting from consensus correction.
 
+## Assembly-to-Reference Alignment
+
+To evaluate the structural concordance between the assembled genome and the reference sequence, the Medaka-polished assembly was aligned to the Salmonella enterica reference genome (ASM694v2) using Minimap2 with the asm5 preset, which is optimized for assembly-to-reference alignment assuming moderate sequence divergence. The resulting SAM file was converted to BAM format, sorted, and indexed using SAMtools, enabling visualization and assessment of contig placement relative to the reference genome
+
+## Read Alignment to Reference Genome
+
+Filtered Oxford Nanopore R10.4 reads were aligned to the Salmonella enterica reference genome (ASM694v2) using Minimap2 with the map-ont preset, which is optimized for long-read Oxford Nanopore sequencing data. The resulting alignments were converted to BAM format, sorted, and indexed using SAMtools, generating alignment files suitable for downstream variant calling and visualization.
+
+## Variant Calling
+
+Variant calling was performed using Clair3, a neural-network-based variant caller optimized for Oxford Nanopore sequencing data. Prior to variant calling, the reference genome was indexed using SAMtools to generate a FASTA index required by Clair3. The sorted and indexed read alignments were provided as input, and variants including single nucleotide polymorphisms and small insertions and deletions were identified relative to the reference genome using a model trained on high-accuracy ONT R10.4 reads.
+
 # Genome assembly and polishing
 
 Oxford Nanopore R10 sequencing reads (FASTQ format) will be quality-checked using NanoPlot (v1.46.2) to assess read length distributions, quality scores, and sequencing yield, ensuring sufficient coverage and read length for reliable _de novo_ assembly.
