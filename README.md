@@ -46,6 +46,9 @@ Filtered ONT reads were assembled de novo using Flye v2.9.6, a long-read assembl
 
 The resulting assembly consisted of multiple contigs, consistent with a bacterial chromosome and potential plasmid sequences. Assembly statistics, including contig number and length metrics, were obtained from the Flye assembly summary files for downstream quality assessment and comparison to a reference genome.
 
+## Assembly Quality Assessment
+Assembly quality was evaluated using QUAST v5.3.0, which compares assembled contigs to a reference genome to assess contiguity, completeness, and structural accuracy. The Flye-assembled genome was compared to the Salmonella enterica reference genome ASM694v2 obtained from NCBI. QUAST was used to calculate assembly metrics including total assembly length, number of contigs, N50, GC content, genome fraction, and the number of misassemblies relative to the reference genome. These metrics were used to assess overall assembly quality prior to downstream reference alignment and variant analysis.
+
 # Genome assembly and polishing
 
 Oxford Nanopore R10 sequencing reads (FASTQ format) will be quality-checked using NanoPlot (v1.46.2) to assess read length distributions, quality scores, and sequencing yield, ensuring sufficient coverage and read length for reliable _de novo_ assembly.
