@@ -49,6 +49,12 @@ The resulting assembly consisted of multiple contigs, consistent with a bacteria
 ## Assembly Quality Assessment
 Assembly quality was evaluated using QUAST v5.3.0, which compares assembled contigs to a reference genome to assess contiguity, completeness, and structural accuracy. The Flye-assembled genome was compared to the Salmonella enterica reference genome ASM694v2 obtained from NCBI. QUAST was used to calculate assembly metrics including total assembly length, number of contigs, N50, GC content, genome fraction, and the number of misassemblies relative to the reference genome. These metrics were used to assess overall assembly quality prior to downstream reference alignment and variant analysis.
 
+## Assembly Polishing and Post-polishing Quality Assessment
+
+The Flye assembly was further polished using Medaka, which performs neural-network-based consensus correction optimized for Oxford Nanopore sequencing data. Polishing was conducted using filtered ONT R10.4 reads aligned to the Flye assembly, with the Medaka model r1041_e82_400bps_sup_v5.2.0, selected for high-accuracy Nanopore reads. Medaka was executed using an Apptainer container to generate a polished consensus assembly.
+
+To assess the impact of polishing on assembly quality, the Medaka-polished assembly was re-evaluated using QUAST v5.3.0 by comparison to the Salmonella enterica reference genome (ASM694v2). Assembly metrics including total length, contig count, N50, GC content, genome fraction, and misassemblies were compared to the pre-polishing QUAST results to evaluate changes resulting from consensus correction.
+
 # Genome assembly and polishing
 
 Oxford Nanopore R10 sequencing reads (FASTQ format) will be quality-checked using NanoPlot (v1.46.2) to assess read length distributions, quality scores, and sequencing yield, ensuring sufficient coverage and read length for reliable _de novo_ assembly.
