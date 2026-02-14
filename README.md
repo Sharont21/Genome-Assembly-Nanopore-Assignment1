@@ -97,19 +97,28 @@ To visually inspect alignment quality and genomic differences between the assemb
 |Read length N50|4,683.0|4,688.0|
 |Total bases|809,296,219.0|785,406,207.0|
 
-Table 1: summary statistics before and after filtering
+Table 1. Summary statistics of Oxford Nanopore R10.4 sequencing reads before and after filtering, showing read length, quality, and yield metrics for the raw dataset and for reads retained after filtering using SeqKit to remove sequences shorter than 1 kb and with average Phred quality scores below 10.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/5608a824-9667-40d8-81bf-4ae398457017" width="45%" />
   <img src="https://github.com/user-attachments/assets/b32452a6-4fd1-4ac9-810b-d1aaad8d8eaa" width="45%" />
 </p>
 
-Figure 1: Read length vs average read quality kde plot before and filtering
+Figure 1. NanoPlot-generated KDE plots illustrating read length and average read quality distributions before and after filtering, demonstrating improved read quality and retention of long-read characteristics following filtering.
 
 <img width="828" height="88" alt="image" src="https://github.com/user-attachments/assets/8d13c962-839c-4253-b90d-78e44bcf83d8" />
 
-Figure 2: Summary of flye assembly
+Table 2. Summary of contigs produced by de novo assembly with Flye. The assembly consists of three contigs totaling approximately 5.1 Mb, including two large contigs representing the bacterial chromosome and one smaller circular contig consistent with a plasmid, indicating a highly contiguous assembly typical of bacterial genomes.
 
+The de novo assembly produced three contigs with lengths of approximately 3.3 Mb, 1.7 Mb, and 0.1 Mb, together accounting for the expected genome size of Salmonella enterica. The presence of only a small number of contigs indicates a high level of assembly contiguity, suggesting that long Oxford Nanopore reads effectively spanned repetitive regions that commonly fragment short-read assemblies. The two large contigs likely represent the chromosomal backbone, while the smaller circular contig is consistent with a plasmid, a common feature of Salmonella genomes. The large contig sizes and high sequencing coverage support the reliability of the assembly and indicate that the genome structure was largely reconstructed without extensive fragmentation.
+
+<img width="2998" height="1896" alt="image" src="https://github.com/user-attachments/assets/8c67d668-38e1-4298-804c-04e981081c8b" />
+
+Figure 3: T -> C (transition mutation (point)), amino acid remains to be valine
+
+<img width="2996" height="1894" alt="image" src="https://github.com/user-attachments/assets/5cefff82-51ec-4131-a729-b7751c06846f" />
+
+Figure 4: A -> G (transition mutation (point)), changes the amino acid from Ile to Val (might be framshift)
 
 
 
