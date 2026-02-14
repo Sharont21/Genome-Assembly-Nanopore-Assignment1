@@ -106,19 +106,23 @@ Table 1. Summary statistics of Oxford Nanopore R10.4 sequencing reads before and
 
 Figure 1. NanoPlot-generated KDE plots illustrating read length and average read quality distributions before and after filtering, demonstrating improved read quality and retention of long-read characteristics following filtering.
 
+Quality control analysis of the raw Oxford Nanopore R10.4 reads showed a broad distribution of read lengths centered around ~4 kb, with a median read quality of 23.7 and an N50 of 4,683 bp (Table 1). While the majority of reads exhibited high quality, the KDE plot of read length versus average read quality revealed a distinct low-quality tail, particularly among shorter reads (Figure 1). This skew is reflected by the mean read quality (18.9) being substantially lower than the median, indicating that a subset of lower-quality reads reduced the overall average. Following filtering with SeqKit to remove reads shorter than 1 kb and with average Phred quality scores below 10, the overall read length distribution was largely preserved, as evidenced by similar mean, median, and N50 read lengths (Table 1). In contrast, average read quality increased after filtering, and the KDE distribution shifted toward higher-quality reads, with reduced density in the low-quality region (Figure 1). These results demonstrate that filtering effectively removed lower-quality reads while retaining long-read characteristics and sufficient sequencing depth for downstream genome assembly.
+
 <img width="828" height="88" alt="image" src="https://github.com/user-attachments/assets/8d13c962-839c-4253-b90d-78e44bcf83d8" />
 
 Table 2. Summary of contigs produced by de novo assembly with Flye. The assembly consists of three contigs totaling approximately 5.1 Mb, including two large contigs representing the bacterial chromosome and one smaller circular contig consistent with a plasmid, indicating a highly contiguous assembly typical of bacterial genomes.
 
 The de novo assembly produced three contigs with lengths of approximately 3.3 Mb, 1.7 Mb, and 0.1 Mb, together accounting for the expected genome size of Salmonella enterica. The presence of only a small number of contigs indicates a high level of assembly contiguity, suggesting that long Oxford Nanopore reads effectively spanned repetitive regions that commonly fragment short-read assemblies. The two large contigs likely represent the chromosomal backbone, while the smaller circular contig is consistent with a plasmid, a common feature of Salmonella genomes. The large contig sizes and high sequencing coverage support the reliability of the assembly and indicate that the genome structure was largely reconstructed without extensive fragmentation.
 
-<img width="2998" height="1896" alt="image" src="https://github.com/user-attachments/assets/8c67d668-38e1-4298-804c-04e981081c8b" />
+<p align="center">
+  <img width="2998" height="1896" alt="image" src="https://github.com/user-attachments/assets/8c67d668-38e1-4298-804c-04e981081c8b" />
+  <img width="2996" height="1894" alt="image" src="https://github.com/user-attachments/assets/5cefff82-51ec-4131-a729-b7751c06846f" />
+</p>
 
+Figure 3. IGV visualizations of representative single-nucleotide variants identified by Clair3.
+(A) IGV visualization of a synonymous single-nucleotide substitution (T → C) at position NC_003197.2:1,165,215 in the reference genome. The variant is supported by multiple aligned reads and does not alter the encoded amino acid, with the codon continuing to encode valine (V), indicating a synonymous mutation.
+(B) IGV visualization of a nonsynonymous single-nucleotide substitution (A → G) at position NC_003197.2:3,113,398. This variant results in an amino acid change from isoleucine (I) to valine (V), and is supported by consistent read evidence across the alignment, indicating a true biological variant rather than a sequencing artifact
 Figure 3: T -> C (transition mutation (point)), amino acid remains to be valine
-
-<img width="2996" height="1894" alt="image" src="https://github.com/user-attachments/assets/5cefff82-51ec-4131-a729-b7751c06846f" />
-
-Figure 4: A -> G (transition mutation (point)), changes the amino acid from Ile to Val (might be framshift)
 
 
 
