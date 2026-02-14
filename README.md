@@ -19,71 +19,57 @@ For reference alignment, minimap2 was chosen due to its widespread use and optim
 # Methods
 ## Computational Resources
 
-All analyses were performed on the Digital Research Alliance of Canada’s Nibi high-performance computing cluster. Data processing and quality control steps were executed in an interactive shell environment using the StdEnv/2023 software stack. Containerized software was executed using Apptainer, while select sequence-processing tools were accessed via environment modules provided by the cluster. No raw sequencing data were stored in the version-controlled repository; only scripts and processed result files were archived.
+All analyses were performed on the Digital Research Alliance of Canada’s Nibi high-performance computing cluster. Data processing and quality control steps were executed in an interactive shell environment using the StdEnv/2023 software stack. Containerized software was executed using Apptainer, while select sequence-processing tools were accessed via environment modules provided by the cluster. Raw sequencing data were not stored in the version-controlled repository; only analysis scripts and processed result files were archived to GitHub.
 
 ## Sequencing Data Acquisition
 
-Oxford Nanopore Technologies (ONT) R10.4 sequencing reads for Salmonella enterica were obtained from the NCBI Sequence Read Archive (SRA) under accession SRR32410565. Raw sequencing data were downloaded using the SRA Toolkit and compressed in FASTQ format for downstream analysis.
+Oxford Nanopore Technologies (ONT) R10.4 sequencing reads for _Salmonella enterica_ were obtained from the NCBI Sequence Read Archive (SRA) under accession SRR32410565. Raw sequencing data were downloaded using the SRA Toolkit and stored in compressed FASTQ format for downstream analysis.
 
 ## Read Quality Assessment and Filtering
 ### Pre-filtering Quality Assessment
 
-Initial read quality was assessed prior to filtering using NanoPlot v1.46.2, executed within an Apptainer container. NanoPlot was used to evaluate read length distributions, quality score distributions, and sequencing yield. Quality control results were generated as interactive HTML reports to enable visual inspection of raw read characteristics.
+Initial read quality was assessed prior to filtering using NanoPlot v1.46.2, executed within an Apptainer container. NanoPlot was used to evaluate read length distributions, average read quality scores, and overall sequencing yield. Quality control results were generated as interactive HTML reports to enable visual inspection of raw read characteristics.
 
 ### Read Filtering
 
-Reads were filtered to improve assembly accuracy by removing low-quality and short reads. Filtering was performed using SeqKit v2.5.1, accessed via the Nibi module system. Reads shorter than 1,000 base pairs or with a mean Phred quality score below 10 were excluded. The resulting filtered reads were written to a new FASTQ file for downstream analysis.
+Reads were filtered to improve assembly accuracy by removing low-quality and short sequences. Filtering was performed using SeqKit v2.5.1, accessed via the Nibi module system. Reads shorter than 1,000 base pairs or with a mean Phred quality score below 10 were excluded. The resulting filtered reads were written to a new FASTQ file for downstream analyses.
 
 ### Post-filtering Quality Assessment
 
-Following filtering, read quality was reassessed using NanoPlot v1.46.2 with the same parameters as the pre-filtering assessment. Post-filtering quality control reports were generated to allow direct comparison of read length, quality distributions, and sequencing yield before and after filtering.
+Following filtering, read quality was reassessed using NanoPlot v1.46.2 with the same parameters as the pre-filtering assessment. Post-filtering quality control reports were generated to allow direct comparison of read length distributions, quality scores, and sequencing yield before and after filtering.
 
 ## Genome Assembly
 
-Filtered ONT reads were assembled de novo using Flye v2.9.6, a long-read assembler optimized for error-prone Nanopore sequencing data. Assembly was performed in high-accuracy Nanopore mode using the --nano-hq option, with an estimated genome size of 4.8 Mb, consistent with the expected genome size of Salmonella enterica. Flye was executed using an Apptainer container, and internal polishing steps implemented by Flye were applied automatically to generate a consensus assembly. Assembly outputs included the final assembled contigs and summary assembly statistics.
+Filtered ONT reads were assembled de novo using Flye v2.9.6, a long-read assembler optimized for Oxford Nanopore sequencing data. Assembly was performed in high-accuracy Nanopore mode using the `--nano-hq` option, with an estimated genome size of 4.8 Mb, consistent with the expected genome size of _Salmonella enterica_. Flye was executed within an Apptainer container, and internal polishing steps implemented by Flye were applied automatically to generate a draft consensus assembly. Assembly outputs included assembled contigs, assembly graphs, and summary statistics.
 
 ## Assembly Output Inspection
 
-The resulting assembly consisted of multiple contigs, consistent with a bacterial chromosome and potential plasmid sequences. Assembly statistics, including contig number and length metrics, were obtained from the Flye assembly summary files for downstream quality assessment and comparison to a reference genome.
+The resulting assembly consisted of multiple contigs corresponding to the bacterial chromosome and putative plasmid sequences. Contig number, length, and coverage statistics were extracted from Flye summary files to support downstream quality assessment and interpretation.
 
 ## Assembly Quality Assessment
-Assembly quality was evaluated using QUAST v5.3.0, which compares assembled contigs to a reference genome to assess contiguity, completeness, and structural accuracy. The Flye-assembled genome was compared to the Salmonella enterica reference genome ASM694v2 obtained from NCBI. QUAST was used to calculate assembly metrics including total assembly length, number of contigs, N50, GC content, genome fraction, and the number of misassemblies relative to the reference genome. These metrics were used to assess overall assembly quality prior to downstream reference alignment and variant analysis.
+Assembly quality was evaluated using QUAST v5.3.0 by comparing the Flye-assembled contigs to the _Salmonella enterica_ reference genome ASM694v2 obtained from NCBI. QUAST was used to compute metrics including total assembly length, number of contigs, N50, GC content, genome fraction, mismatch and indel rates, and the number of misassemblies relative to the reference genome. These metrics were used to assess contiguity, completeness, and structural accuracy of the assembly.
 
 ## Assembly Polishing and Post-polishing Quality Assessment
 
-The Flye assembly was further polished using Medaka, which performs neural-network-based consensus correction optimized for Oxford Nanopore sequencing data. Polishing was conducted using filtered ONT R10.4 reads aligned to the Flye assembly, with the Medaka model r1041_e82_400bps_sup_v5.2.0, selected for high-accuracy Nanopore reads. Medaka was executed using an Apptainer container to generate a polished consensus assembly.
+The Flye assembly was further polished using Medaka, which performs neural-network-based consensus correction optimized for Oxford Nanopore sequencing data. Polishing was conducted using filtered ONT R10.4 reads aligned to the Flye assembly, with the Medaka model r1041_e82_400bps_sup_v5.2.0 selected for high-accuracy Nanopore reads. Medaka was executed within an Apptainer container to generate a polished consensus assembly.
 
-To assess the impact of polishing on assembly quality, the Medaka-polished assembly was re-evaluated using QUAST v5.3.0 by comparison to the Salmonella enterica reference genome (ASM694v2). Assembly metrics including total length, contig count, N50, GC content, genome fraction, and misassemblies were compared to the pre-polishing QUAST results to evaluate changes resulting from consensus correction.
+To evaluate the impact of polishing, the Medaka-polished assembly was re-assessed using QUAST v5.3.0 against the _Salmonella enterica_ reference genome (ASM694v2). Assembly metrics before and after polishing were compared to assess changes in contiguity, accuracy, and completeness.
 
 ## Assembly-to-Reference Alignment
 
-To evaluate the structural concordance between the assembled genome and the reference sequence, the Medaka-polished assembly was aligned to the Salmonella enterica reference genome (ASM694v2) using Minimap2 with the asm5 preset, which is optimized for assembly-to-reference alignment assuming moderate sequence divergence. The resulting SAM file was converted to BAM format, sorted, and indexed using SAMtools, enabling visualization and assessment of contig placement relative to the reference genome
+To evaluate structural concordance between the assembled genome and the reference sequence, the Medaka-polished assembly was aligned to the Salmonella enterica reference genome (ASM694v2) using Minimap2 with the `asm5` preset, which is optimized for assembly-to-reference alignment assuming moderate sequence divergence. The resulting SAM file was converted to BAM format, sorted, and indexed using SAMtools to enable visualization and downstream inspection.
 
 ## Read Alignment to Reference Genome
 
-Filtered Oxford Nanopore R10.4 reads were aligned to the Salmonella enterica reference genome (ASM694v2) using Minimap2 with the map-ont preset, which is optimized for long-read Oxford Nanopore sequencing data. The resulting alignments were converted to BAM format, sorted, and indexed using SAMtools, generating alignment files suitable for downstream variant calling and visualization.
+Filtered ONT reads were aligned to the _Salmonella enterica_ reference genome (ASM694v2) using Minimap2 with the `map-ont` preset, which is optimized for long-read Oxford Nanopore sequencing data. Alignments were converted to BAM format, sorted, and indexed using SAMtools, producing read-level alignment files suitable for variant calling and visualization.
 
 ## Variant Calling
 
-Variant calling was performed using Clair3, a neural-network-based variant caller optimized for Oxford Nanopore sequencing data. Prior to variant calling, the reference genome was indexed using SAMtools to generate a FASTA index required by Clair3. The sorted and indexed read alignments were provided as input, and variants including single nucleotide polymorphisms and small insertions and deletions were identified relative to the reference genome using a model trained on high-accuracy ONT R10.4 reads.
-
-# Genome assembly and polishing
-
-Oxford Nanopore R10 sequencing reads (FASTQ format) will be quality-checked using NanoPlot (v1.46.2) to assess read length distributions, quality scores, and sequencing yield, ensuring sufficient coverage and read length for reliable _de novo_ assembly.
-Following the QC steps, reads will be assembled using Flye (v2.9.6), a long-read assembler designed for error-prone Nanopore data. Assembly was performed in high-accuracy Nanopore mode `--nano-hq`, with an estimated genome size of 4.8 Mb `--genome-size 4.8m`, consistent with _Salmonella enterica_ [10]. Default parameters will be used unless otherwise specified. Flye’s internal polishing steps will be applied to improve consensus accuracy prior to downstream analysis.
-
-`flye --nano-hq reads.fastq --genome-size 4.8m --out-dir flye_output --threads 8`
-
-## Reference genome alignment
-To evaluate the assembled genome and identify sequence differences, the draft assembly will be aligned to a _Salmonella enterica_ reference genome downloaded from the NCBI RefSeq database. Alignment will be performed using minimap2 (v2.26), using the `-ax asm5` option to align assembled contigs to the reference, output to a SAM format, assuming ~5% divergence.
-
-`minimap2 -ax asm5 reference.fasta flye_output/assembly.fasta > alignment.sam`
-
-## Alignment processing and variant calling
-Alignment files (SAM files) will be converted to BAM format, sorted, and indexed using SAMtools (v1.19.2) to prepare them for variant analysis. Variants relative to the reference genome, including single nucleotide polymorphisms (SNPs) and small insertions and deletions (indels), will be identified using BCFtools (v1.19).
+Variant calling was performed using Clair3, a neural-network-based variant caller optimized for Oxford Nanopore sequencing data. Prior to variant calling, the reference genome was indexed using SAMtools to generate the required FASTA index. The sorted and indexed read alignments were provided as input to Clair3, and candidate single nucleotide polymorphisms (SNPs) and small insertions and deletions (indels) were identified relative to the reference genome using a model trained on high-accuracy ONT R10.4 reads.
 
 ## Visualization
-To visually inspect alignment quality and genomic differences between the assembled genome and the reference, alignments and variant calls will be examined using Integrative Genomics Viewer (IGV, v2.19.7). 
+
+To visually inspect alignment quality and assess genomic differences between the assembled genome and the reference, both assembly-based and read-based alignments were examined using Integrative Genomics Viewer (IGV) v2.19.7. IGV was used to explore local alignment patterns, assess read support for candidate variants, and validate regions of interest identified during assembly and quality assessment. 
 
 # Results
 
